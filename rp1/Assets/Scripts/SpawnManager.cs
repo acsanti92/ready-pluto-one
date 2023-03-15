@@ -14,12 +14,12 @@ public class SpawnManager : MonoBehaviour
     public float maxSpawnDelay = 1.0f;
 
     // minAngle and maxAngle will determine the angle at which the planets will spawn
-    public float minAngle = -15f;
-    public float maxAngle = 15f;
+    public float minAngle = -90f;
+    public float maxAngle = 90f;
 
     // minForce and maxForce will determine the force at which the planets will spawn
-    public float minForce = 18f;
-    public float maxForce = 22f;
+    public float minForce = 5f;
+    public float maxForce = 8f;
 
     // maxLifetime will determine the lifetime of the planets
     public float maxLifetime = 5f;
@@ -68,7 +68,7 @@ public class SpawnManager : MonoBehaviour
             Destroy(planet, maxLifetime);
             // Add a random amount of force to the planet
             float force = Random.Range(minForce, maxForce);
-            planet.GetComponent<Rigidbody>().AddForce(planet.transform.up * force, ForceMode.Impulse);
+            planet.GetComponent<Rigidbody>().AddForce(-planet.transform.up * force, ForceMode.Impulse);
 
             // Wait for a random amount of time
             yield return new WaitForSeconds(Random.Range(minSpawnDelay, maxSpawnDelay));

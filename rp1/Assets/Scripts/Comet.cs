@@ -3,25 +3,26 @@ using UnityEngine;
 
 public class Comet : MonoBehaviour
 {
-    // Access to the main camera
-    private Camera mainCamera;
-    // The comet's rigidbody
-    private Collider cometCollider;
-    // cometTrail will be the comet's trail renderer
-    private TrailRenderer cometTrail;
-    // slicing will determine if the comet is being sliced
-    private bool slicing;
-
     // get and set the direction of the comet
     public Vector3 direction { get; private set; }
-    //
+    // Access to the main camera
+    private Camera mainCamera;
+    // cometCollider will be the comet's collider
+    private Collider sliceCollider;
+    // cometTrail will be the comet's trail
+    private TrailRenderer sliceTrail;
+    // sliceForce will determine the force at which the comet will slice
+    public float sliceForce = 5f;
+    // minSliceVelocity will determine the minimum velocity at which the comet will slice
     public float minSliceVelocity = 0.01f;
+    // slicing will determine if the comet is being sliced
+    private bool slicing;
 
     private void Awake()
     {
         mainCamera = Camera.main;
-        cometCollider = GetComponent<Collider>();
-        cometTrail = GetComponentInChildren<TrailRenderer>();
+        sliceCollider = GetComponent<Collider>();
+        sliceTrail = GetComponentInChildren<TrailRenderer>();
     }
 
     private void OnEnable()
@@ -46,7 +47,7 @@ public class Comet : MonoBehaviour
         {
             StopSlicing();
         }
-        else if (Input.GetMouseButton(0))
+        else if (slicing)
         {
             ContinueSlicing();
         }
@@ -55,25 +56,25 @@ public class Comet : MonoBehaviour
     private void StartSlicing()
     {
         // When we start slicing, we need to get the position of the mouse in world space
-        Vector3 newPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        newPosition.z = 0f;
+        Vector3 position = mainCamera.ScreenToWorldPoint(Input.mousePosition);
+        position.z = 0f;
 
-        // Set the comet's position to the new position
-        transform.position = newPosition;
+        // Set the slice's position to the new position
+        transform.position = position;
 
         slicing = true;
-        cometCollider.enabled = true;
-        cometTrail.enabled = true;
+        sliceCollider.enabled = true;
+        sliceTrail.enabled = true;
 
-        // clear all points in the comet's trail
-        cometTrail.Clear();
+        // clear all points in the slice's trail
+        sliceTrail.Clear();
     }
 
     private void StopSlicing()
     {
         slicing = false;
-        cometCollider.enabled = false;
-        cometTrail.enabled = false;
+        sliceCollider.enabled = false;
+        sliceTrail.enabled = false;
     }
 
     private void ContinueSlicing()
@@ -88,7 +89,7 @@ public class Comet : MonoBehaviour
         float velocity = direction.magnitude / Time.deltaTime;
 
         // If the velocity is greater than minSliceVelocity, enable the comet's collider
-        cometCollider.enabled = velocity > minSliceVelocity;
+        sliceCollider.enabled = velocity > minSliceVelocity;
 
         // Set the comet's position to the new position
         transform.position = newPosition;
