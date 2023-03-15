@@ -467,6 +467,7 @@ GameObject:
   - component: {fileID: 1310738521}
   - component: {fileID: 1310738520}
   - component: {fileID: 1310738522}
+  - component: {fileID: 1310738523}
   m_Layer: 0
   m_Name: Comet
   m_TagString: Player
@@ -516,7 +517,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sliceForce: 5
-  minSliceVelocity: 0.01
+  minSliceVelocity: 10
+  speed: 25
+--- !u!54 &1310738523
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1310738518}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &2047879712
 GameObject:
   m_ObjectHideFlags: 0
@@ -750,7 +768,7 @@ Transform:
   m_GameObject: {fileID: 2076511021}
   m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 5}
-  m_LocalScale: {x: 3.5, y: 3.5, z: 3.5}
+  m_LocalScale: {x: 4, y: 4, z: 4}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}

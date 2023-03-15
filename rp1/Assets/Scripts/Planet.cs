@@ -10,18 +10,23 @@ public class Planet : MonoBehaviour
     private Rigidbody planetRigidbody;
     // To access Collider component
     private Collider planetCollider;
+    // To access ParticleSystem component
+    private ParticleSystem rocksParticleEffect;
 
     // Get the planet's rigidbody and collider when the script is enabled
     private void Awake()
     {
         planetRigidbody = GetComponent<Rigidbody>();
         planetCollider = GetComponent<Collider>();
+        rocksParticleEffect = GetComponentInChildren<ParticleSystem>();
     }
 
     // whole planet becomes inactive and sliced planet becomes active
     private void Slice(Vector3 direction, Vector3 position, float force)
     {
         planetCollider.enabled = false;
+        // Play the particle effect
+        rocksParticleEffect.Play();
         // Disable the whole planet
         whole.SetActive(false);
         // Enable the sliced planet

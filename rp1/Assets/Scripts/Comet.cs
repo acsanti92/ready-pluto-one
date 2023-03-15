@@ -17,9 +17,12 @@ public class Comet : MonoBehaviour
     public float minSliceVelocity = 0.01f;
     // slicing will determine if the comet is being sliced
     private bool slicing;
+    // comet speed
+    public float speed = 10f;
 
     private void Awake()
     {
+        // Initialize our variables
         mainCamera = Camera.main;
         sliceCollider = GetComponent<Collider>();
         sliceTrail = GetComponentInChildren<TrailRenderer>();
@@ -38,6 +41,11 @@ public class Comet : MonoBehaviour
     // The comet's rigidbody
     private void Update()
     {
+        // Read input from d-pad controls
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        Vector3 input = new Vector3(horizontal, vertical, 0f);
+        
         // If the left mouse button is pressed, start slicing
         if (Input.GetMouseButtonDown(0))
         {
@@ -49,7 +57,7 @@ public class Comet : MonoBehaviour
         }
         else if (slicing)
         {
-            ContinueSlicing();
+            ContinueSlicing(input);
         }
     }
 
@@ -62,6 +70,7 @@ public class Comet : MonoBehaviour
         // Set the slice's position to the new position
         transform.position = position;
 
+        // Set the slice's direction to the direction of the input
         slicing = true;
         sliceCollider.enabled = true;
         sliceTrail.enabled = true;
@@ -72,18 +81,21 @@ public class Comet : MonoBehaviour
 
     private void StopSlicing()
     {
-        slicing = false;
-        sliceCollider.enabled = false;
-        sliceTrail.enabled = false;
+        slicing = true;
+        // sliceCollider.enabled = false;
+        sliceTrail.enabled = true;
     }
 
-    private void ContinueSlicing()
+    private void ContinueSlicing(Vector3 input)
     {
-        Vector3 newPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
-        newPosition.z = 0f;
+        // Get the new position of the comet based on the input
+        Vector3 position = transform.position + input * speed * Time.deltaTime;
 
-        // direction will be the difference between the new position and the current position
-        direction = newPosition - transform.position;
+        // direction will be the difference between the current position and the new position
+        direction = position - transform.position;
+
+        // multiply direction by the speed
+        direction *= speed;
 
         // velocity will be the magnitude of the direction divided by the time it took to get there
         float velocity = direction.magnitude / Time.deltaTime;
@@ -92,6 +104,6 @@ public class Comet : MonoBehaviour
         sliceCollider.enabled = velocity > minSliceVelocity;
 
         // Set the comet's position to the new position
-        transform.position = newPosition;
+        transform.position = position;
     }
 }
