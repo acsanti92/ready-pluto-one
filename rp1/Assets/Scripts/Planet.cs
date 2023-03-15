@@ -12,6 +12,8 @@ public class Planet : MonoBehaviour
     private Collider planetCollider;
     // To access ParticleSystem component
     private ParticleSystem rocksParticleEffect;
+    // Default value of the planet
+    public int points = 1;
 
     // Get the planet's rigidbody and collider when the script is enabled
     private void Awake()
@@ -24,6 +26,9 @@ public class Planet : MonoBehaviour
     // whole planet becomes inactive and sliced planet becomes active
     private void Slice(Vector3 direction, Vector3 position, float force)
     {
+        // Increase the score
+        FindObjectOfType<GameManager>().IncreaseScore(points);
+
         planetCollider.enabled = false;
         // Play the particle effect
         rocksParticleEffect.Play();

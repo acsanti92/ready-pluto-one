@@ -45,7 +45,7 @@ public class Comet : MonoBehaviour
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         Vector3 input = new Vector3(horizontal, vertical, 0f);
-        
+
         // If the left mouse button is pressed, start slicing
         if (Input.GetMouseButtonDown(0))
         {
