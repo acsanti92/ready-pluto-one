@@ -29,19 +29,19 @@ public class SpawnManager : MonoBehaviour
         spawnArea = GetComponent<Collider>();
     }
 
-    // 
+    // OnEnable will be called when the script is enabled
     private void OnEnable()
     {
         StartCoroutine(SpawnPlanets());
     }
 
-    //
+    // OnDisable will be called when the script is disabled
     private void OnDisable()
     {
         StopAllCoroutines();
     }
 
-    //
+    // SpawnPlanets will spawn the planets
     private IEnumerator SpawnPlanets()
     {
         // Wait for a second before spawning the first planet
